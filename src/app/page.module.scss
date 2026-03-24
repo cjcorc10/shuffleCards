@@ -1,0 +1,40 @@
+.main {
+    height: 100vh;
+    width: 100vw;
+    .counter {
+        font-size: 10rem;
+        line-height: 1;
+        padding: 1rem;
+        position: fixed;
+    }
+    .scrollContainer {
+        height: 100%;
+        width: 100%;
+        .imageContainer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: grid;
+            perspective: 500px;
+            transform-style: preserve-3d;
+            .image {
+                position: relative;
+                grid-area: 1/1;
+                width: 20rem;
+                aspect-ratio: 3/2;
+                background-color: #000;
+                border-radius: 1rem;
+                &:nth-child(2) {
+                    background-color: rgb(201, 65, 255);
+                }
+                &:nth-child(3) {
+                    background-color: rgb(73, 255, 73);
+                }
+                &:nth-child(4) {
+                    background-color: wheat;
+                }
+            }
+        }
+    }
+}
