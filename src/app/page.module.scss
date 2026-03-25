@@ -25,6 +25,7 @@
                 aspect-ratio: 3/2;
                 background-color: #000;
                 border-radius: 1rem;
+                will-change: transform;
                 &:nth-child(2) {
                     background-color: rgb(201, 65, 255);
                 }
