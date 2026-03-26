@@ -34,51 +34,45 @@ export default function Home() {
       const numImages = images.length;
       if (!numImages) return;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: scrollRef.current,
-          start: "top top",
-          end: "+=1600px",
-          pin: true,
-          scrub: 1,
-          markers: true,
-          onUpdate: (self) => {
-            const { progress } = self;
-            const steps = images.length;
-            const segmentLength = 1 / steps;
+      ScrollTrigger.create({
+        trigger: scrollRef.current,
+        start: "top top",
+        end: "+=1600px",
+        pin: true,
+        scrub: 1,
+        markers: true,
+        onUpdate: (self) => {
+          const { progress } = self;
+          const steps = images.length;
+          const segmentLength = 1 / steps;
 
-            images.forEach((img, i) => {
-              const frontCards = [img, images[i + 1] || images[0]];
-              const backgroundCards = getCards(images, i);
+          images.forEach((img, i) => {
+            const frontCards = [img, images[i + 1] || images[0]];
+            const backgroundCards = getCards(images, i);
 
-              const startProgress = i * segmentLength;
-              const endProgress = (i + 1) * segmentLength;
+            const startProgress = i * segmentLength;
+            const endProgress = (i + 1) * segmentLength;
 
-              let localProgress =
-                (progress - startProgress) / segmentLength;
-              localProgress = gsap.utils.clamp(0, 1, localProgress);
+            let localProgress =
+              (progress - startProgress) / segmentLength;
+            localProgress = gsap.utils.clamp(0, 1, localProgress);
 
-              if (
-                progress > startProgress &&
-                progress < endProgress
-              ) {
-                gsap.to(frontCards, {
-                  translateY: (k) => (k === 0 ? `0%` : `${GAP}%`),
-                  translateZ: (k) =>
-                    k ? `${numImages * -GAP}px` : 0,
-                });
-                gsap.to(backgroundCards, {
-                  translateY: (k) =>
-                    `${(numImages - FOCUSED_IMAGES - k) * -GAP}%`,
-                  translateZ: (k) =>
-                    `${(numImages - FOCUSED_IMAGES - k) * -GAP}px`,
-                });
-                gsap.to(imageContainer.current, {
-                  translateY: localProgress * -150,
-                });
-              }
-            });
-          },
+            if (progress > startProgress && progress < endProgress) {
+              gsap.to(frontCards, {
+                translateY: (k) => (k === 0 ? `0%` : `${GAP}%`),
+                translateZ: (k) => (k ? `${numImages * -GAP}px` : 0),
+              });
+              gsap.to(backgroundCards, {
+                translateY: (k) =>
+                  `${(numImages - FOCUSED_IMAGES - k) * -GAP}%`,
+                translateZ: (k) =>
+                  `${(numImages - FOCUSED_IMAGES - k) * -GAP}px`,
+              });
+              gsap.to(imageContainer.current, {
+                translateY: localProgress * -150,
+              });
+            }
+          });
         },
       });
     },
